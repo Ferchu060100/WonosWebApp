@@ -75,6 +75,8 @@ namespace WonosWebApp
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddControllersWithViews();
+            services.AddRazorPages();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,8 +102,7 @@ namespace WonosWebApp
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
