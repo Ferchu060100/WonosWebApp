@@ -31,11 +31,12 @@
                         </li>
                         @if (SignInManager.IsSignedIn(User))
                         {
+                      
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Bonos</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Bono" asp-action="Listar">Listar Bonos</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Calcular Bonos</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Bono" asp-action="Calcular">Calcular Bonos</a>
                             </li>
                         }
                     </ul>

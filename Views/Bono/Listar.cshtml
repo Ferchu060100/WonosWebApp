@@ -1,0 +1,30 @@
+﻿@model IEnumerable<WonosWebApp.Models.Bono>
+@{
+    ViewBag.Title = "Bonos";
+    //Layout
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="row">
+    <div class="col-md-6">
+        <table class="table">
+            <tr>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Tipo de Metodo
+                </th>
+            </tr>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.Nombre,"Resultados","Bono",new { bonoId = item.Id},null)
+                    </td>
+                        @Html.DisplayFor(modelItem => item.tipoTasa)
+                </tr>
+            }
+        </table>
+    </div>
+</div>

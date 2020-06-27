@@ -1,0 +1,287 @@
+﻿@model WonosWebApp.Models.Bono
+
+@{
+    ViewData["Title"] = "Calcular";
+    //Layout
+    List<SelectListItem> frecuenciaBono = new List<SelectListItem>();
+    frecuenciaBono.Add(new SelectListItem
+    {
+        Text = "Mensual",
+        Value = "30"
+    });
+    frecuenciaBono.Add(new SelectListItem
+    {
+        Text = "Bimestral",
+        Value = "60",
+    });
+    frecuenciaBono.Add(new SelectListItem
+    {
+        Text = "Trimestral",
+        Value = "90",
+    });
+    frecuenciaBono.Add(new SelectListItem
+    {
+        Text = "Cuatrimestral",
+        Value = "120",
+    });
+    frecuenciaBono.Add(new SelectListItem
+    {
+        Text = "Semestral",
+        Value = "180",
+    });
+    frecuenciaBono.Add(new SelectListItem
+    {
+        Text = "Anual",
+        Value = "360",
+    });
+
+    var TipoMetodo = new List<SelectListItem>()
+    {
+        new SelectListItem()
+        {
+            Text = "Americano",
+            Value = "Americano"
+        },
+        new SelectListItem()
+        {
+            Text = "Frances",
+            Value = "Frances"
+        },
+        new SelectListItem()
+        {
+            Text = "Aleman",
+            Value = "Aleman"
+        }
+    };
+    List<SelectListItem> diasxAnio = new List<SelectListItem>();
+    diasxAnio.Add(new SelectListItem
+    {
+        Text="360",
+        Value= "360"
+    });
+    diasxAnio.Add(new SelectListItem
+    {
+        Text = "365",
+        Value = "365"
+    });
+
+    var TipoTasa = new List<SelectListItem>()
+    {
+        new SelectListItem()
+        {
+            Text = "Efectiva",
+            Value = "Efectiva"
+        },
+        new SelectListItem()
+        {
+            Text = "Nominal",
+            Value = "Nominal"
+        }
+    };
+    var PeriodoCap = new List<SelectListItem>()
+    {
+        new SelectListItem()
+        {
+            Text = "Diaria",
+            Value = "1"
+        },
+        new SelectListItem()
+        {
+            Text = "Quincenal",
+            Value = "15"
+        },
+        new SelectListItem()
+        {
+            Text = "Mensual",
+            Value = "30"
+        },
+         new SelectListItem()
+        {
+            Text = "Bimestral",
+            Value = "60"
+        }, new SelectListItem()
+        {
+            Text = "Trimestral",
+            Value = "90"
+        }, new SelectListItem()
+        {
+            Text = "Cuatrimestral",
+            Value = "120"
+        }, new SelectListItem()
+        {
+            Text = "Semestral",
+            Value = "180"
+        }, new SelectListItem()
+        {
+            Text = "Anual",
+            Value = "360"
+        }
+    };
+
+
+
+}
+
+
+<h1>Calcular Bono</h1>
+<br />
+
+<div class="container">
+    <div class="form-horizontal">
+        <form asp-action="Calcular" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>Datos del bono</h4>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="Nombre" class="control-label"></label>
+                            <input asp-for="Nombre" class="form-control" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="vnominal" class="control-label">Valor Nominal</label>
+                            <input asp-for="vnominal" class="form-control" />
+                            <span asp-validation-for="vnominal" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="vcomercial" class="control-label">Valor Comercial</label>
+                            <input asp-for="vcomercial" class="form-control" />
+                            <span asp-validation-for="vcomercial" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="nroaños" class="control-label">Cantidad de Años</label>
+                            <input asp-for="nroaños" class="form-control" />
+                            <span asp-validation-for="nroaños" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="frecuencia">Frecuencia</label>
+                            @Html.DropDownListFor(Model => Model.frecuencia, frecuenciaBono, "---Frecuencia del Bono---")
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="diasporanio">Dias por Año</label>
+                            @Html.DropDownListFor(Model => Model.diasporanio, diasxAnio, "---Dias por Año---")
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3" style="padding-top: 3rem">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="tipoTasa" class="control-label">Tipo de Tasa</label>
+                            @Html.DropDownListFor(Model => Model.tipoTasa, TipoTasa, "---Tipo de Tasa---")
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="capitalizacion" class="control-label">Capitalizacion</label>
+                            @Html.DropDownListFor(Model => Model.capitalizacion, PeriodoCap, "---Periodo de Capitalizacion---")
+                            <span asp-validation-for="capitalizacion" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="tasaInteres" class="control-label"> Tasa de Interes</label>
+                            <input asp-for="tasaInteres" class="form-control" />
+                            <span asp-validation-for="tasaInteres" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="tasaDescuentoCOK" class="control-label">TEA de descuento</label>
+                            <input asp-for="tasaDescuentoCOK" class="form-control" />
+                            <span asp-validation-for="tasaDescuentoCOK" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="impRenta" class="control-label">Impuesto a la Renta</label>
+                            <input asp-for="impRenta" class="form-control" />
+                            <span asp-validation-for="impRenta" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="fechaEmision" class="control-label">Fecha de Emision</label>
+                            <input asp-for="fechaEmision" class="form-control" />
+                            <span asp-validation-for="fechaEmision" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <h4>Datos de los Costes/Gastos iniciales</h4>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="pPrima" class="control-label">Prima%</label>
+                            <input asp-for="pPrima" class="form-control" />
+                            <span asp-validation-for="pPrima" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="pEstructura" class="control-label">Estructuracion%</label>
+                            <input asp-for="pEstructura" class="form-control" />
+                            <span asp-validation-for="pEstructura" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="pColoca" class="control-label">Colocacion%</label>
+                            <input asp-for="pColoca" class="form-control" />
+                            <span asp-validation-for="pColoca" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="pFlota" class="control-label">Flotacion%</label>
+                            <input asp-for="pFlota" class="form-control" />
+                            <span asp-validation-for="pFlota" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="pCAVALI" class="control-label">CAVALI%</label>
+                        <input asp-for="pCAVALI" class="form-control" />
+                        <span asp-validation-for="pCAVALI" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TipoMetodo" class="control-label"></label>
+                        @Html.DropDownListFor(Model => Model.TipoMetodo, TipoMetodo, "---Tipo de Metodo---")
+                        <span asp-validation-for="TipoMetodo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Calcular" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script type="text/javascript">
+    $(function () {
+        $("#fechaEmision").datetimepicker({
+            format: "DD/MM/YYYY"
+        }).on('dp.change'), function (e) {
+            $(this).data("DateTimePicker").hide();
+        }
+    });
+</script>

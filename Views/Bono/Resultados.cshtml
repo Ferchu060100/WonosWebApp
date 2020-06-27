@@ -1,0 +1,91 @@
+﻿@model WonosWebApp.Models.ViewModels.ResultadosViewModel
+@{
+    ViewBag.Title = "Resultados";
+    //Layout 
+}
+
+<h2>Resultados "@ViewBag.nombre" (@ViewBag.tipometodo)</h2>
+<br />
+
+<div class="row">
+    <div class="col-md-4">
+        <h3>Estructuración del bono:</h3>
+        <p><strong>Total de periodos:</strong> @Model.estructura.totalPeriodos</p>
+        <p><strong>Tasa efectiva del periodo:</strong> @(Model.estructura.TEP*100)%</p>
+        <p><strong>Tasa efectiva anual:</strong> @(Model.estructura.TEA*100)%</p>
+        <p><strong>COK del periodo:</strong> @(Model.estructura.COK*100)%</p>
+        <p><strong>Costos Iniciales Emisor:</strong> @Model.estructura.costesInicialesEmisor</p>
+        <p><strong>Costos Iniciales Bonista:</strong> @Model.estructura.costesInicialesBonista</p>
+    </div>
+    <div class="col-md-4">
+        <h3>Precio Actual y Utilidad:</h3>
+        <p><strong>Precio Actual:</strong> @Model.utilidad.precioActual</p>
+        <p><strong>Utilidad/Perdida:</strong> @Model.utilidad.utilidad</p>
+    </div>
+    <div class="col-md-4">
+        <h3>Indicadores de Rentabilidad:</h3>
+        <p><strong>TCEA Emisor:</strong> @Model.rentabilidad.TCEAEmisor</p>
+        <p><strong>TCEA Emisor/Escudo:</strong> @Model.rentabilidad.TCEAEmisorEscudo</p>
+        <p><strong>TREA Bonista:</strong> @Model.rentabilidad.TREABonista</p>
+    </div>
+    <div class ="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>N</th>
+                    <th>Plazo de Gracia</th>
+                    <th>Bono</th>
+                    <th>Cupon</th>
+                    <th>Cuota</th>
+                    <th>Amortización</th>
+                    <th>Prima</th>
+                    <th>Escudo</th>
+                    <th>Flujo Emisor</th>
+                    <th>Flujo Emisor/Escudo</th>
+                    <th>Flujo Bonista</th>
+                </tr>
+            </thead>
+            <tbody>
+             @for (int i = 0; i < Model.periodos.Count(); i++)
+             {
+                <tr>
+                    <td>@Model.periodos[i].N</td>
+                    <td>@Model.periodos[i].plazoGracia</td>
+                    <td>@Model.periodos[i].bono</td>
+                    <td class="text-danger">@Model.periodos[i].cupon</td>
+                    <td class="text-danger">@Model.periodos[i].cuota</td>
+                    <td class="text-danger">@Model.periodos[i].amortizacion</td>
+                    <td>@Model.periodos[i].prima</td>
+                    <td>@Model.periodos[i].escudo</td>
+                    @if (i == 0)
+                    {
+                        <td>@Model.periodos[i].flujoEmisor</td>
+                    }
+                    else
+                    {
+                        <td class="text-danger">@Model.periodos[i].flujoEmisor</td>
+                    }
+                    @if (i == 0)
+                    {
+                        <td>@Model.periodos[i].flujoEmisorEscudo</td>
+                    }
+                    else
+                    {
+                        <td class="text-danger">@Model.periodos[i].flujoEmisorEscudo</td>
+                    }
+                    @if (i == 0)
+                    {
+                        <td class="text-danger">@Model.periodos[i].flujoBonista</td>
+                    }
+                    else
+                    {
+                        <td>@Model.periodos[i].flujoBonista</td>
+                    }
+
+
+                </tr>
+             }
+            </tbody>
+        </table>
+    </div>
+</div>

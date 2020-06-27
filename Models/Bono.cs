@@ -8,6 +8,7 @@ namespace WonosWebApp.Models
     public class Bono
     {
         public int Id { get; set; }
+        public string Nombre { get; set; }
         public double vnominal { get; set; }
         public double vcomercial { get; set; }
         public int nroaños { get; set; }

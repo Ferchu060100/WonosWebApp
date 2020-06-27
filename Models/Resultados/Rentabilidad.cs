@@ -7,7 +7,8 @@ namespace WonosWebApp.Models.Resultados
 {
     public class Rentabilidad
     {
-        public double? TCEA;
-        public double? TREA;
+        public double? TCEAEmisor;
+        public double? TCEAEmisorEscudo;
+        public double? TREABonista;
     }
 }

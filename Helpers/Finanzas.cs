@@ -264,8 +264,27 @@ namespace WonosWebApp.Helpers
             return TCEA;
         }
 
+        public static Rentabilidad ResultadosRentabilidad(Estructuracion estructuracion,List<Periodo>resultados, Bono bono)
+        {
+            return new Rentabilidad
+            {
+                TCEAEmisor = HallarTCEAEmisor(estructuracion, resultados, bono),
+                TCEAEmisorEscudo =HallarTCEAEmisorEscudo(estructuracion,resultados,bono),
+                TREABonista = HallarTREABonista(estructuracion,resultados,bono)
 
+            };
 
+        }
+
+        public static Utilidad ResultadosUtilidad(Estructuracion estructuracion, List<Periodo> periodos)
+        {
+            return new Utilidad
+            {
+                precioActual = HallarVAN(estructuracion, periodos),
+                utilidad = HallarUtilidad(HallarVAN(estructuracion, periodos), periodos)
+
+            };
+        }
 
 
 
