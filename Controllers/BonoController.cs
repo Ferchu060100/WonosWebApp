@@ -38,7 +38,7 @@ namespace WonosWebApp.Controllers
         public ActionResult Calcular(Bono bono)
         {
             int ID;
-                bono.ApplicationUserId = _userManager.GetUserId(HttpContext.User);
+                //bono.ApplicationUserId = _userManager.GetUserId(HttpContext.User);
                 _context.Bonos.Add(bono);
                 _context.SaveChanges();
                 ID = bono.Id;
@@ -52,7 +52,6 @@ namespace WonosWebApp.Controllers
 
             
             bono = _context.Bonos.FirstOrDefault(x => x.Id == bonoId);
-            SessionHelper.nombreBono = bono.Nombre;
             Estructuracion estructuracion = new Estructuracion();
             estructuracion = Finanzas.ResultadosEstructuracion(bono);
             List<Periodo> periodos = new List<Periodo>();
@@ -77,8 +76,8 @@ namespace WonosWebApp.Controllers
             resultados.periodos = periodos;
             resultados.rentabilidad = rentabilidad;
             resultados.utilidad = utilidad;
-            ViewBag.nombre = SessionHelper.nombreBono;
-            ViewBag.tipometodo = SessionHelper.tipoMetodo;
+            ViewBag.nombre = bono.Nombre;
+            ViewBag.tipometodo = bono.TipoMetodo;
             return View(resultados);
         }
         [HttpGet]
