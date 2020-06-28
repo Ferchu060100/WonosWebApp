@@ -78,6 +78,7 @@ namespace WonosWebApp.Controllers
             resultados.periodos = periodos;
             resultados.rentabilidad = rentabilidad;
             resultados.utilidad = utilidad;
+            resultados.bono = bono;
             ViewBag.nombre = bono.Nombre;
             ViewBag.tipometodo = bono.TipoMetodo;
             return View(resultados);

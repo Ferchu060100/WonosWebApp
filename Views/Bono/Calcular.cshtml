@@ -117,7 +117,25 @@
             Value = "360"
         }
     };
+    var TipoMoneda= new List<SelectListItem>() {
+        new SelectListItem()
+        {
+            Text = "Soles",
+            Value= "S/."
+        },
+        new SelectListItem()
+        {
+            Text = "Euros",
+            Value = "€"
+        },
+        new SelectListItem()
+        {
+            Text = "Dolares",
+            Value = "$"
 
+        }
+
+    };
 
 
 }
@@ -263,13 +281,22 @@
                             @Html.DropDownListFor(Model => Model.TipoMetodo, TipoMetodo, "---Tipo de Metodo---")
                             <span asp-validation-for="TipoMetodo" class="text-danger"></span>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="TipoMoneda" class="control-label"> Moneda </label>
+                            @Html.DropDownListFor(Model => Model.TipoMoneda, TipoMoneda, "---Moneda---")
+                            <span asp-validation-for="TipoMoneda" class="text-danger"></span>
                         </div>
+                    </div>
+
+
                     <div class="form-group">
                         <div class="col-md-12">
                             <input type="submit" value="Calcular" class="btn btn-primary" />
                         </div>
-                        </div>
                     </div>
+                </div>
             </div>
         </form>
     </div>

@@ -11,22 +11,22 @@
     <div class="col-md-4">
         <h3>Estructuración del bono:</h3>
         <p><strong>Total de periodos:</strong> @Model.estructura.totalPeriodos</p>
-        <p><strong>Tasa efectiva del periodo:</strong> @(Model.estructura.TEP*100)%</p>
-        <p><strong>Tasa efectiva anual:</strong> @(Model.estructura.TEA*100)%</p>
-        <p><strong>COK del periodo:</strong> @(Model.estructura.COK*100)%</p>
-        <p><strong>Costos Iniciales Emisor:</strong> @Model.estructura.costesInicialesEmisor</p>
-        <p><strong>Costos Iniciales Bonista:</strong> @Model.estructura.costesInicialesBonista</p>
+        <p><strong>Tasa efectiva del periodo:</strong> @(Model.estructura.TEP)%</p>
+        <p><strong>Tasa efectiva anual:</strong> @(Model.estructura.TEA)%</p>
+        <p><strong>COK del periodo:</strong> @(Model.estructura.COK)%</p>
+        <p><strong>Costos Iniciales Emisor:</strong>@Model.bono.TipoMoneda @Model.estructura.costesInicialesEmisor</p>
+        <p><strong>Costos Iniciales Bonista:</strong>@Model.bono.TipoMoneda @Model.estructura.costesInicialesBonista</p>
     </div>
     <div class="col-md-4">
         <h3>Precio Actual y Utilidad:</h3>
-        <p><strong>Precio Actual:</strong> @Model.utilidad.precioActual</p>
-        <p><strong>Utilidad/Perdida:</strong> @Model.utilidad.utilidad</p>
+        <p><strong>Precio Actual:</strong>@Model.bono.TipoMoneda @Model.utilidad.precioActual</p>
+        <p><strong>Utilidad/Perdida:</strong>@Model.bono.TipoMoneda @Model.utilidad.utilidad</p>
     </div>
     <div class="col-md-4">
         <h3>Indicadores de Rentabilidad:</h3>
-        <p><strong>TCEA Emisor:</strong> @Model.rentabilidad.TCEAEmisor</p>
-        <p><strong>TCEA Emisor/Escudo:</strong> @Model.rentabilidad.TCEAEmisorEscudo</p>
-        <p><strong>TREA Bonista:</strong> @Model.rentabilidad.TREABonista</p>
+        <p><strong>TCEA Emisor:</strong> @(Model.rentabilidad.TCEAEmisor*100)%</p>
+        <p><strong>TCEA Emisor/Escudo:</strong> @(Model.rentabilidad.TCEAEmisorEscudo*100)%</p>
+        <p><strong>TREA Bonista:</strong> @(Model.rentabilidad.TREABonista*100)%</p>
     </div>
     <div class ="col-md-12">
         <table class="table">
@@ -51,36 +51,44 @@
                 <tr>
                     <td>@Model.periodos[i].N</td>
                     <td>@Model.periodos[i].plazoGracia</td>
-                    <td>@Model.periodos[i].bono</td>
-                    <td class="text-danger">@Model.periodos[i].cupon</td>
-                    <td class="text-danger">@Model.periodos[i].cuota</td>
-                    <td class="text-danger">@Model.periodos[i].amortizacion</td>
-                    <td>@Model.periodos[i].prima</td>
-                    <td>@Model.periodos[i].escudo</td>
-                    @if (i == 0)
+                    <td>@Model.bono.TipoMoneda@Model.periodos[i].bono</td>
+                    <td class="text-danger">@Model.bono.TipoMoneda@Model.periodos[i].cupon</td>
+                    <td class="text-danger">@Model.bono.TipoMoneda@Model.periodos[i].cuota</td>
+                    <td class="text-danger">@Model.bono.TipoMoneda@Model.periodos[i].amortizacion</td>
+                    @if (i == Model.periodos.Count()-1)
                     {
-                        <td>@Model.periodos[i].flujoEmisor</td>
+                        <td class=" text-danger">@Model.bono.TipoMoneda@Model.periodos[i].prima</td>
                     }
                     else
                     {
-                        <td class="text-danger">@Model.periodos[i].flujoEmisor</td>
+                        <td>@Model.bono.TipoMoneda@Model.periodos[i].prima</td>
                     }
+                    <td>@Model.bono.TipoMoneda@Model.periodos[i].escudo</td>
                     @if (i == 0)
                     {
-                        <td>@Model.periodos[i].flujoEmisorEscudo</td>
+                        <td>@Model.bono.TipoMoneda@Model.periodos[i].flujoEmisor</td>
                     }
                     else
                     {
-                        <td class="text-danger">@Model.periodos[i].flujoEmisorEscudo</td>
+                        <td class="text-danger">@Model.bono.TipoMoneda@Model.periodos[i].flujoEmisor</td>
                     }
                     @if (i == 0)
                     {
-                        <td class="text-danger">@Model.periodos[i].flujoBonista</td>
+                        <td>@Model.bono.TipoMoneda@Model.periodos[i].flujoEmisorEscudo</td>
                     }
                     else
                     {
-                        <td>@Model.periodos[i].flujoBonista</td>
+                        <td class="text-danger">@Model.bono.TipoMoneda@Model.periodos[i].flujoEmisorEscudo</td>
                     }
+                    @if (i == 0)
+                    {
+                        <td class="text-danger">@Model.bono.TipoMoneda@Model.periodos[i].flujoBonista</td>
+                    }
+                    else
+                    {
+                        <td>@Model.bono.TipoMoneda@Model.periodos[i].flujoBonista</td>
+                    }
+
 
 
                 </tr>

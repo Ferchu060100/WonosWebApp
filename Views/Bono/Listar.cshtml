@@ -15,6 +15,12 @@
                 <th>
                     Tipo de Metodo
                 </th>
+                <th>
+                    Fecha de Emision
+                </th>
+                <th>
+                    Tipo Moneda
+                </th>
             </tr>
             @foreach(var item in Model)
             {
@@ -22,7 +28,15 @@
                     <td>
                         @Html.ActionLink(item.Nombre,"Resultados","Bono",new { bonoId = item.Id},null)
                     </td>
-                        @Html.DisplayFor(modelItem => item.tipoTasa)
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoMetodo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fechaEmision)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoMoneda)
+                    </td>
                 </tr>
             }
         </table>
