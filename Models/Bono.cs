@@ -31,7 +31,7 @@ namespace WonosWebApp.Models
 
         public double pCAVALI { get; set; }
         public string TipoMetodo { get; set; }
-        public int ApplicationUserId { get; set; }
+        public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
     }
 }

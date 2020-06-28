@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -37,8 +38,9 @@ namespace WonosWebApp.Controllers
         [HttpPost]
         public ActionResult Calcular(Bono bono)
         {
-            int ID;
-                //bono.ApplicationUserId = _userManager.GetUserId(HttpContext.User);
+                int ID;
+                
+                bono.ApplicationUserId = _userManager.GetUserId(User);
                 _context.Bonos.Add(bono);
                 _context.SaveChanges();
                 ID = bono.Id;
@@ -85,7 +87,7 @@ namespace WonosWebApp.Controllers
         {
             ListarBonosViewModel vm = new ListarBonosViewModel();
             
-            vm.Bonos = _context.Bonos.Where(x => x.ApplicationUserId == SessionHelper.User.Id).ToList();
+            vm.Bonos = _context.Bonos.Where(x => x.ApplicationUserId == _userManager.GetUserId(User)).ToList();
             return View(vm.Bonos);
         }
 

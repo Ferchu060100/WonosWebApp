@@ -29,19 +29,19 @@ namespace WonosWebApp.Helpers
         }
          public static double CIEmisor(double estructuracion,double colocacion,double flotacion,double cavali,double VComercial)
         {
-            double CIEmi = (estructuracion / 100 + colocacion / 100 + cavali / 100) * VComercial;
+            double CIEmi = (estructuracion  + colocacion + cavali) * VComercial;
             return CIEmi;
         }
 
         public static double CIBonista(double flotacion, double cavali,double VComercial)
         {
-            double CIBon = (flotacion / 100 + cavali / 100) * VComercial;
+            double CIBon = (flotacion + cavali) * VComercial;
             return CIBon;
 
         }
         public static double HallarCuota(double TasaPeriodo,double Saldo,double Amortizacion)
         {
-            double Cuota = Saldo * TasaPeriodo + Amortizacion;
+            double Cuota = Saldo * TasaPeriodo/100 + Amortizacion;
             return Cuota;
         }
 
@@ -61,7 +61,8 @@ namespace WonosWebApp.Helpers
                 totalPeriodos = (bono.diasporanio / bono.frecuencia) * bono.nroaños,
                 TEA = bono.tipoTasa == "Efectiva" ? bono.tasaInteres : HallarTEA(bono.tasaInteres, bono.diasporanio, bono.capitalizacion),
                 TEP = HallarTEP(bono.tasaInteres, bono.diasporanio, bono.capitalizacion),
-                COK = HallarCOKPeriodo(bono.tasaDescuentoCOK, bono.diasporanio, bono.frecuencia),
+                COK = Math.Round(Math.Pow(1 + bono.tasaDescuentoCOK, bono.frecuencia / bono.diasporanio) - 1, 9),
+                frecCupon = bono.frecuencia,
                 costesInicialesBonista = CIBonista(bono.pFlota, bono.pCAVALI, bono.vcomercial),
                 costesInicialesEmisor = CIEmisor(bono.pEstructura,bono.pColoca,bono.pFlota,bono.pCAVALI,bono.vcomercial)
             };
@@ -74,11 +75,11 @@ namespace WonosWebApp.Helpers
             {
                 N = 0,
                 plazoGracia = null,
-                bono = null,
-                cupon = null,
-                amortizacion = null,
-                prima = null,
-                escudo = null,
+                bono = 0,
+                cupon = 0,
+                amortizacion = 0,
+                prima = 0,
+                escudo = 0,
                 flujoEmisor= bono.vcomercial- estructuracion.costesInicialesEmisor,
                 flujoEmisorEscudo = bono.vcomercial - estructuracion.costesInicialesEmisor,
                 flujoBonista = bono.vcomercial - estructuracion.costesInicialesBonista
@@ -89,8 +90,8 @@ namespace WonosWebApp.Helpers
                 Periodo aux = new Periodo();
                 aux.N = i + 1;
                 aux.plazoGracia = null;
-                aux.bono = i == 0 ? bono.vnominal : Math.Round(lista[i - 1].bono.Value - lista[i - 1].amortizacion.Value, 2);
-                aux.cupon = i == 0 ? 0 : Math.Round(aux.bono.Value * estructuracion.TEP, 2);
+                aux.bono = i == 0 ? bono.vnominal : Math.Round(lista[i].bono.Value - lista[i].amortizacion.Value, 2);
+                aux.cupon = Math.Round(aux.bono.Value * estructuracion.TEP/100, 2);
                 aux.amortizacion = aux.N == estructuracion.totalPeriodos - 1 ? 0.00 : aux.bono.Value;
                 aux.cuota = HallarCuota(estructuracion.TEP, aux.bono.Value, aux.amortizacion.Value);
                 aux.prima = aux.N == estructuracion.totalPeriodos - 1 ? 0.00 : Math.Round(aux.bono.Value * bono.pPrima,2);
@@ -202,7 +203,7 @@ namespace WonosWebApp.Helpers
         {
             double TIR;
             double TCEA;
-            double[] flujo = null;
+            double[] flujo = new double[estructuracion.totalPeriodos];
             for (int i = 0; i < resultados.Count(); i++)
             {
                 if(i == 0)

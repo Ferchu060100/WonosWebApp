@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 namespace WonosWebApp.Models
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
-    public class ApplicationUser : IdentityUser<long>
+    public class ApplicationUser : IdentityUser
     {
         [DisplayName("Tipo de Persona")]
         public string Type { get; set; }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace WonosWebApp.Models
 {
-    public class ApplicationRole : IdentityRole<long>
+    public class ApplicationRole : IdentityRole
     {
     }
 }
