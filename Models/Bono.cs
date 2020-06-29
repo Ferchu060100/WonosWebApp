@@ -32,6 +32,8 @@ namespace WonosWebApp.Models
         public double pCAVALI { get; set; }
         public string TipoMetodo { get; set; }
         public string TipoMoneda { get; set; }
+        public double Inflacion { get; set; }
+        public int PlazoGraciaCant { get; set; }
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
     }

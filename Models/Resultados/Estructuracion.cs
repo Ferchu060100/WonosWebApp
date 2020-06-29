@@ -9,6 +9,8 @@ namespace WonosWebApp.Models.Resultados
     {
         public double frecCupon { get; set; }
         public int totalPeriodos { get; set; }
+        public double IPer { get; set; }
+        public double IA { get; set; }
         public double TEA { get; set; }
         public double TEP { get; set; }
         public double COK { get; set; }

@@ -8,8 +8,11 @@ namespace WonosWebApp.Models.Resultados
     public class Periodo
     {
         public int N { get; set; }
-        public char? plazoGracia { get; set; }
+        public string plazoGracia { get; set; }
         public double? bono { get; set; }
+        public double? bonoindexado { get; set; }
+        public double? inflacionA { get; set; }
+        public double inflacionPer { get; set; }
         public double? cupon { get; set; }
         public double? cuota { get; set; }
         public double? amortizacion { get; set; }

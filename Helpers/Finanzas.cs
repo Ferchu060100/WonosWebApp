@@ -39,6 +39,8 @@ namespace WonosWebApp.Helpers
             double TEAr = bono.tipoTasa == "Efectiva" ? bono.tasaInteres : HallarTEA(bono.tasaInteres, bono.diasporanio, bono.capitalizacion);
             double exponente = (double)bono.frecuencia / bono.diasporanio;
             double tea = Math.Round(Math.Pow(1 + TEAr/100,exponente), 7) - 1 ;
+            double Ip = Math.Round(Math.Pow(1 + bono.Inflacion/100, exponente), 7) - 1;
+
             return new Estructuracion
             {
                 totalPeriodos = (bono.diasporanio / bono.frecuencia) * bono.nroaños,
@@ -47,6 +49,8 @@ namespace WonosWebApp.Helpers
                 TEP = Math.Round(tea * 100,9),
                 COK = Math.Round(Math.Pow( bono.tasaDescuentoCOK, (double)bono.frecuencia / bono.diasporanio), 7),
                 frecCupon = bono.frecuencia,
+                IA = Math.Round(bono.Inflacion,2),
+                IPer= Math.Round(Ip *100,3),
                 costesInicialesBonista = Math.Round(-(bono.pFlota+bono.pCAVALI)/100*bono.vcomercial,2),
                 costesInicialesEmisor =  Math.Round(Math.Round(bono.pEstructura + bono.pFlota+ bono.pCAVALI+ bono.pColoca,7)/100*bono.vcomercial,2)
 
@@ -62,6 +66,7 @@ namespace WonosWebApp.Helpers
                 bono = 0,
                 cupon = 0,
                 amortizacion = 0,
+                bonoindexado = 0,
                 cuota = 0,
                 prima = 0,
                 escudo = 0,
@@ -75,11 +80,52 @@ namespace WonosWebApp.Helpers
             {
                 Periodo aux = new Periodo();
                 aux.N = i + 1;
-                aux.plazoGracia = null;
-                aux.bono = i == 0 ? bono.vnominal : Math.Round(lista[i].bono.Value - lista[i].amortizacion.Value, 2);
-                aux.cupon = Math.Round(aux.bono.Value * (estructuracion.TEP)/100, 2);
-                aux.amortizacion = aux.N == estructuracion.totalPeriodos ? aux.bono.Value :0.00 ;
-                aux.cuota = aux.cupon.Value + aux.amortizacion.Value;
+                if (i < bono.PlazoGraciaCant)
+                {
+                    aux.plazoGracia = "T";
+                }
+                else
+                {
+                    aux.plazoGracia = "S";
+                }
+                if (aux.plazoGracia == "T")
+                {
+                    aux.bono = i == 0 ? bono.vnominal : Math.Round(lista[i].bonoindexado.Value + lista[i].cupon.Value, 3);
+                    double inf = aux.bono.Value * estructuracion.IPer/100;
+                    aux.bonoindexado = inf + aux.bono.Value;
+                    
+                }else if(lista[i].plazoGracia == "T")
+                {
+                    aux.bono = Math.Round(lista[i].bonoindexado.Value + lista[i].cupon.Value, 3);
+                    double inf = aux.bono.Value * estructuracion.IPer / 100;
+                    aux.bonoindexado = Math.Round(inf + aux.bono.Value,2);
+                }
+                else
+                {
+                    aux.bono = i == 0? bono.vnominal: Math.Round(lista[i].bonoindexado.Value - lista[i].amortizacion.Value, 3);
+                    double inf = aux.bono.Value * estructuracion.IPer / 100;
+                    aux.bonoindexado = Math.Round(inf + aux.bono.Value,2);
+                }
+                aux.cupon = Math.Round(aux.bonoindexado.Value * (estructuracion.TEP)/100, 2);
+
+                if (aux.plazoGracia =="T" )
+                {
+                    aux.amortizacion = 0;
+                }
+                else
+                {
+                    aux.amortizacion = aux.N == estructuracion.totalPeriodos ? aux.bonoindexado.Value : 0.00;
+
+                }
+                if (aux.plazoGracia == "T")
+                {
+                    aux.cuota = 0;
+                }
+                else
+                {
+                    aux.cuota = aux.cupon.Value + aux.amortizacion.Value;
+                }
+                
                 aux.prima = aux.N == estructuracion.totalPeriodos ? Math.Round(aux.bono.Value * bono.pPrima/100, 2) : 0.00 ;
                 aux.escudo = Math.Round(aux.cupon.Value * bono.impRenta/100,2);
                 aux.flujoEmisor = Math.Round(aux.cuota.Value + aux.prima.Value,2);

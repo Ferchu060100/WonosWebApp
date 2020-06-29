@@ -33,8 +33,11 @@
             <thead>
                 <tr>
                     <th>N</th>
+                    <th>Inflacion</th>
+                    <th>Inflacion Periodo</th>
                     <th>Plazo de Gracia</th>
                     <th>Bono</th>
+                    <th>Bono Indexado</th>
                     <th>Cupon</th>
                     <th>Cuota</th>
                     <th>Amortización</th>
@@ -50,12 +53,23 @@
              {
                 <tr>
                     <td>@Model.periodos[i].N</td>
+                    @if (i == 0)
+                    {
+                        <th></th>
+                        <th></th>
+                    }
+                    else
+                    {
+                        <th>@Model.estructura.IA%</th>
+                        <th>@(Model.estructura.IPer)%</th>
+                    }
                     <td>@Model.periodos[i].plazoGracia</td>
                     <td>@Model.bono.TipoMoneda@Model.periodos[i].bono</td>
+                    <td>@Model.bono.TipoMoneda@Model.periodos[i].bonoindexado</td>
                     <td class="text-danger">@Model.bono.TipoMoneda@Model.periodos[i].cupon</td>
                     <td class="text-danger">@Model.bono.TipoMoneda@Model.periodos[i].cuota</td>
                     <td class="text-danger">@Model.bono.TipoMoneda@Model.periodos[i].amortizacion</td>
-                    @if (i == Model.periodos.Count()-1)
+                    @if (i == Model.periodos.Count() - 1)
                     {
                         <td class=" text-danger">@Model.bono.TipoMoneda@Model.periodos[i].prima</td>
                     }

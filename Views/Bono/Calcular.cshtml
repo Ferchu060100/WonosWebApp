@@ -191,6 +191,15 @@
                             @Html.DropDownListFor(Model => Model.diasporanio, diasxAnio, "---Dias por Año---")
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="Inflacion" class="control-label">Inflacion%</label>
+                            <input asp-for="Inflacion" class="form-control" />
+                            <span asp-validation-for="Inflacion" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
                 </div>
 
                 <div class="col-md-3" style="padding-top: 3rem">
@@ -234,6 +243,13 @@
                             <label asp-for="fechaEmision" class="control-label">Fecha de Emision</label>
                             <input asp-for="fechaEmision" class="form-control" />
                             <span asp-validation-for="fechaEmision" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label asp-for="PlazoGraciaCant" class="control-label">Plazo de Gracia Total</label>
+                            <input asp-for="PlazoGraciaCant" class="form-control" />
+                            <span asp-validation-for="PlazoGraciaCant" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
@@ -289,8 +305,7 @@
                             <span asp-validation-for="TipoMoneda" class="text-danger"></span>
                         </div>
                     </div>
-
-
+             
                     <div class="form-group">
                         <div class="col-md-12">
                             <input type="submit" value="Calcular" class="btn btn-primary" />
