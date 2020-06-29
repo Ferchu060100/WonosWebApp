@@ -147,13 +147,15 @@ namespace WonosWebApp.Helpers
             for (int i = 0; i < estructuracion.totalPeriodos; i++)
             {
                 Periodo aux = new Periodo();
-                double Arriba = estructuracion.TEP/100 * Math.Pow((1 + estructuracion.TEP/100), estructuracion.totalPeriodos);
-                double Abajo = Math.Pow((1 + estructuracion.TEP/100), estructuracion.totalPeriodos) - 1;
+               
+                
                 aux.N = i + 1;
                 aux.plazoGracia = null;
                 aux.bono = i == 0 ? bono.vnominal : Math.Round(lista[i].bono.Value - lista[i].amortizacion.Value, 2);
+                double Arriba = bono.vnominal* estructuracion.TEP/100;
+                double Abajo = 1 - Math.Pow(1 + estructuracion.TEP / 100, -estructuracion.totalPeriodos);
                 aux.cupon = Math.Round(aux.bono.Value * (estructuracion.TEP) / 100, 2);
-                aux.cuota = Math.Round(aux.bono.Value * (Arriba / Abajo), 2);
+                aux.cuota = Math.Round(Arriba / Abajo, 2);
                 aux.amortizacion = Math.Round(aux.cuota.Value - aux.cupon.Value, 2);
                 aux.prima = aux.N == estructuracion.totalPeriodos ? Math.Round(aux.bono.Value * bono.pPrima / 100, 2) : 0.00;
                 aux.escudo = Math.Round(aux.cupon.Value * bono.impRenta / 100, 2);
