@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.ConstrainedExecution;
 using System.Threading.Tasks;
 using Microsoft.VisualBasic;
@@ -36,12 +37,15 @@ namespace WonosWebApp.Helpers
         public static Estructuracion ResultadosEstructuracion(Bono bono)
         {
             double TEAr = bono.tipoTasa == "Efectiva" ? bono.tasaInteres : HallarTEA(bono.tasaInteres, bono.diasporanio, bono.capitalizacion);
+            double exponente = (double)bono.frecuencia / bono.diasporanio;
+            double tea = Math.Round(Math.Pow(1 + TEAr/100,exponente), 7) - 1 ;
             return new Estructuracion
             {
                 totalPeriodos = (bono.diasporanio / bono.frecuencia) * bono.nroaños,
+
                 TEA = bono.tipoTasa == "Efectiva" ? bono.tasaInteres : HallarTEA(bono.tasaInteres, bono.diasporanio, bono.capitalizacion),
-                TEP = Math.Round(Math.Pow( TEAr,(double)bono.frecuencia/bono.diasporanio),9)+1,
-                COK = Math.Round(Math.Pow( bono.tasaDescuentoCOK, (double)bono.frecuencia / bono.diasporanio), 9),
+                TEP = Math.Round(tea * 100,9),
+                COK = Math.Round(Math.Pow( bono.tasaDescuentoCOK, (double)bono.frecuencia / bono.diasporanio), 7),
                 frecCupon = bono.frecuencia,
                 costesInicialesBonista = Math.Round(-(bono.pFlota+bono.pCAVALI)/100*bono.vcomercial,2),
                 costesInicialesEmisor =  Math.Round(Math.Round(bono.pEstructura + bono.pFlota+ bono.pCAVALI+ bono.pColoca,7)/100*bono.vcomercial,2)
@@ -105,7 +109,7 @@ namespace WonosWebApp.Helpers
                 flujoBonista = bono.vcomercial - estructuracion.costesInicialesBonista
             };
             lista.Add(cero);
-            double amortizacionC = Math.Round(bono.vcomercial / estructuracion.totalPeriodos,2);
+            double amortizacionC = Math.Round(bono.vnominal / estructuracion.totalPeriodos,2);
             for (int i = 0; i < estructuracion.totalPeriodos; i++)
             {
                 Periodo aux = new Periodo();
