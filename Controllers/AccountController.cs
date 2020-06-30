@@ -220,7 +220,7 @@ namespace WonosWebApp.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Dni = model.Dni,Type = model.Type ,PhoneNumber = model.PhoneNumber};
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Dni = model.Dni,Type = model.Type ,PhoneNumber = model.PhoneNumber,Ruc= model.Ruc};
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

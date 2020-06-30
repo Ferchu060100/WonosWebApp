@@ -27,6 +27,9 @@ namespace WonosWebApp.Models.AccountViewModels
         [DisplayName("DNI o Carnet de Extranjeria")]
         [StringLength(8, ErrorMessage = "El numero debe tener como maximo 8 caracteres")]
         public string Dni { get; set; }
+        [DisplayName("RUC")]
+        [StringLength(11, ErrorMessage = "El RUC debe tener como maximo 11 caracteres")]
+        public string Ruc { get; set; }
         [DisplayName("Tipo de Persona")]
         public string Type { get; set; }
         [DisplayName("Numero de Telefono")]

@@ -61,6 +61,7 @@ namespace WonosWebApp.Controllers
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
                 Dni = user.Dni,
+                Ruc = user.Ruc,
                 Type = user.Type,
                 StatusMessage = StatusMessage
             };
@@ -173,8 +174,8 @@ namespace WonosWebApp.Controllers
             }
 
             await _signInManager.SignInAsync(user, isPersistent: false);
-            _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            _logger.LogInformation("Cambio su contraseña satisfactoriamente");
+            StatusMessage = "Su contraseña ha sido cambiada";
 
             return RedirectToAction(nameof(ChangePassword));
         }
