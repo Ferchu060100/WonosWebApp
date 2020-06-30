@@ -62,7 +62,7 @@ namespace WonosWebApp.Helpers
             Periodo cero = new Periodo
             {
                 N = 0,
-                plazoGracia = null,
+                plazoGracia = "S",
                 bono = 0,
                 cupon = 0,
                 amortizacion = 0,
@@ -143,10 +143,11 @@ namespace WonosWebApp.Helpers
             Periodo cero = new Periodo
             {
                 N = 0,
-                plazoGracia = null,
+                plazoGracia = "S",
                 bono = 0,
                 cupon = 0,
                 amortizacion = 0,
+                bonoindexado = 0,
                 cuota = 0,
                 prima = 0,
                 escudo = 0,
@@ -155,16 +156,69 @@ namespace WonosWebApp.Helpers
                 flujoBonista = bono.vcomercial - estructuracion.costesInicialesBonista
             };
             lista.Add(cero);
-            double amortizacionC = Math.Round(bono.vnominal / estructuracion.totalPeriodos,2);
+
+            //double amortizacionC = Math.Round(bono.vnominal / estructuracion.totalPeriodos,2);
             for (int i = 0; i < estructuracion.totalPeriodos; i++)
             {
                 Periodo aux = new Periodo();
                 aux.N = i + 1;
-                aux.plazoGracia = null;
-                aux.bono = i == 0 ? bono.vnominal : Math.Round(lista[i].bono.Value - lista[i].amortizacion.Value, 2);
-                aux.cupon = Math.Round(aux.bono.Value * (estructuracion.TEP) / 100, 2);
-                aux.amortizacion = amortizacionC;
-                aux.cuota = Math.Round(aux.cupon.Value + aux.amortizacion.Value,2);
+                if (i < bono.PlazoGraciaCant)
+                {
+                    aux.plazoGracia = "T";
+                }
+                else
+                {
+                    aux.plazoGracia = "S";
+                }
+                if (aux.plazoGracia == "T")
+                {
+                    aux.bono = i == 0 ? bono.vnominal : Math.Round(lista[i].bonoindexado.Value + lista[i].cupon.Value, 3);
+                    double inf = aux.bono.Value * estructuracion.IPer / 100;
+                    aux.bonoindexado = inf + aux.bono.Value;
+
+                }
+                else if (lista[i].plazoGracia == "T")
+                {
+                    aux.bono = Math.Round(lista[i].bonoindexado.Value + lista[i].cupon.Value, 3);
+                    double inf = aux.bono.Value * estructuracion.IPer / 100;
+                    aux.bonoindexado = Math.Round(inf + aux.bono.Value, 2);
+                }
+                else
+                {
+                    aux.bono = i == 0 ? bono.vnominal : Math.Round(lista[i].bonoindexado.Value - lista[i].amortizacion.Value, 3);
+                    double inf = aux.bono.Value * estructuracion.IPer / 100;
+                    aux.bonoindexado = Math.Round(inf + aux.bono.Value, 2);
+                }
+                aux.cupon = Math.Round(aux.bonoindexado.Value * (estructuracion.TEP) / 100, 2);
+
+                if (aux.plazoGracia == "T")
+                {
+                    aux.amortizacion = 0;
+                }else if(aux.plazoGracia == "S" && i > bono.PlazoGraciaCant )
+                        { 
+                            int indice = bono.PlazoGraciaCant + 1;
+                            int cantPer = estructuracion.totalPeriodos - bono.PlazoGraciaCant;
+                            aux.amortizacion = Math.Round(lista[indice].bonoindexado.Value/cantPer,2);
+                }
+                    else if(aux.plazoGracia == "S" && i ==bono.PlazoGraciaCant)
+                    {
+                    int cantPer = estructuracion.totalPeriodos - bono.PlazoGraciaCant;
+                    aux.amortizacion = Math.Round( aux.bonoindexado.Value / cantPer,2) ;
+                    }
+                    else
+                    {
+
+                    aux.amortizacion = Math.Round(bono.vnominal / estructuracion.totalPeriodos, 2);
+
+                    }
+                if (aux.plazoGracia == "T")
+                {
+                    aux.cuota = 0;
+                }
+                else
+                {
+                    aux.cuota = Math.Round(aux.cupon.Value + aux.amortizacion.Value,2);
+                }
                 aux.prima = aux.N == estructuracion.totalPeriodos ? Math.Round(aux.bono.Value * bono.pPrima / 100, 2) : 0.00;
                 aux.escudo = Math.Round(aux.cupon.Value * bono.impRenta / 100, 2);
                 aux.flujoEmisor = Math.Round(aux.cuota.Value + aux.prima.Value, 2);
@@ -175,6 +229,9 @@ namespace WonosWebApp.Helpers
             }
             return lista;
         }
+
+
+
         public static List<Periodo> ResultadosPeriodosFrances(Bono bono, Estructuracion estructuracion)
         {
             List<Periodo> lista = new List<Periodo>();
@@ -235,13 +292,13 @@ namespace WonosWebApp.Helpers
                 flujo.Add(resultados[i].flujoBonista);
             }
             var arrFlujos = flujo.ToArray();
-            VAN = Financial.NPV(estructuracion.COK/100,  ref arrFlujos);
+            VAN = Math.Round(Financial.NPV(estructuracion.COK/100,  ref arrFlujos),2);
             return VAN;
         }
         public static double HallarUtilidad(double VAN,List<Periodo> resultados)
         {
             double Utilidad;
-            Utilidad = -resultados[0].flujoBonista + VAN;
+            Utilidad = Math.Round(-resultados[0].flujoBonista + VAN,2);
             return Utilidad;
 
         }
@@ -265,7 +322,7 @@ namespace WonosWebApp.Helpers
             }
             var arrFlujos = flujos.ToArray();
             TIR = Financial.IRR(ref arrFlujos);
-            TCEA = Math.Pow(TIR + 1, bono.diasporanio / estructuracion.frecCupon) - 1;
+            TCEA = Math.Round( Math.Pow(TIR + 1, bono.diasporanio / estructuracion.frecCupon) - 1,7);
             return TCEA;
         }
 
@@ -288,7 +345,7 @@ namespace WonosWebApp.Helpers
             }
             var arrFlujos = flujos.ToArray();
             TIR = Financial.IRR(ref arrFlujos);
-            TCEA = Math.Pow(TIR + 1, bono.diasporanio / estructuracion.frecCupon) - 1;
+            TCEA = Math.Round( Math.Pow(TIR + 1, bono.diasporanio / estructuracion.frecCupon) - 1,7);
             return TCEA;
         }
 
@@ -311,7 +368,7 @@ namespace WonosWebApp.Helpers
             }
             var arrFlujos = flujo.ToArray();
             TIR = Financial.IRR(ref arrFlujos);
-            TCEA = Math.Pow(TIR + 1, bono.diasporanio / estructuracion.frecCupon) - 1;
+            TCEA = Math.Round( Math.Pow(TIR + 1, bono.diasporanio / estructuracion.frecCupon) - 1,7);
             return TCEA;
         }
 
@@ -319,9 +376,9 @@ namespace WonosWebApp.Helpers
         {
             return new Rentabilidad
             {
-                TCEAEmisor = HallarTCEAEmisor(estructuracion, resultados, bono),
-                TCEAEmisorEscudo =HallarTCEAEmisorEscudo(estructuracion,resultados,bono),
-                TREABonista = HallarTREABonista(estructuracion,resultados,bono)
+                TCEAEmisor = Math.Round(HallarTCEAEmisor(estructuracion, resultados, bono),7),
+                TCEAEmisorEscudo = Math.Round(HallarTCEAEmisorEscudo(estructuracion,resultados,bono),7),
+                TREABonista = Math.Round(HallarTREABonista(estructuracion,resultados,bono),7)
 
             };
 
@@ -331,8 +388,8 @@ namespace WonosWebApp.Helpers
         {
             return new Utilidad
             {
-                precioActual = HallarVAN(estructuracion, periodos),
-                utilidad = HallarUtilidad(HallarVAN(estructuracion, periodos), periodos)
+                precioActual = Math.Round(HallarVAN(estructuracion, periodos),2),
+                utilidad = Math.Round( HallarUtilidad(HallarVAN(estructuracion, periodos), periodos),2)
 
             };
         }
