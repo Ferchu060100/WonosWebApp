@@ -40,14 +40,14 @@ namespace WonosWebApp.Helpers
             double exponente = (double)bono.frecuencia / bono.diasporanio;
             double tea = Math.Round(Math.Pow(1 + TEAr/100,exponente), 7) - 1 ;
             double Ip = Math.Round(Math.Pow(1 + bono.Inflacion/100, exponente), 7) - 1;
-
+            double cok = Math.Round(Math.Pow(1 + bono.tasaDescuentoCOK / 100, exponente), 7) - 1;
             return new Estructuracion
             {
                 totalPeriodos = (bono.diasporanio / bono.frecuencia) * bono.nroaños,
 
                 TEA = bono.tipoTasa == "Efectiva" ? bono.tasaInteres : HallarTEA(bono.tasaInteres, bono.diasporanio, bono.capitalizacion),
                 TEP = Math.Round(tea * 100,9),
-                COK = Math.Round(Math.Pow( bono.tasaDescuentoCOK, (double)bono.frecuencia / bono.diasporanio), 7),
+                COK = Math.Round(cok * 100,7),
                 frecCupon = bono.frecuencia,
                 IA = Math.Round(bono.Inflacion,2),
                 IPer= Math.Round(Ip *100,3),
@@ -65,6 +65,8 @@ namespace WonosWebApp.Helpers
                 plazoGracia = "S",
                 bono = 0,
                 cupon = 0,
+                inflacionA = estructuracion.IA,
+                inflacionPer = estructuracion.IPer,
                 amortizacion = 0,
                 bonoindexado = 0,
                 cuota = 0,
@@ -147,6 +149,8 @@ namespace WonosWebApp.Helpers
                 bono = 0,
                 cupon = 0,
                 amortizacion = 0,
+                inflacionA = estructuracion.IA,
+                inflacionPer = estructuracion.IPer,
                 bonoindexado = 0,
                 cuota = 0,
                 prima = 0,
@@ -238,10 +242,12 @@ namespace WonosWebApp.Helpers
             Periodo cero = new Periodo
             {
                 N = 0,
-                plazoGracia = null,
+                plazoGracia = "S",
                 bono = 0,
                 cupon = 0,
                 amortizacion = 0,
+                inflacionA = estructuracion.IA,
+                inflacionPer = estructuracion.IPer,
                 cuota = 0,
                 prima = 0,
                 escudo = 0,
@@ -257,7 +263,7 @@ namespace WonosWebApp.Helpers
                
                 
                 aux.N = i + 1;
-                aux.plazoGracia = null;
+                aux.plazoGracia = "S";
                 aux.bono = i == 0 ? bono.vnominal : Math.Round(lista[i].bono.Value - lista[i].amortizacion.Value, 2);
                 double Arriba = bono.vnominal* estructuracion.TEP/100;
                 double Abajo = 1 - Math.Pow(1 + estructuracion.TEP / 100, -estructuracion.totalPeriodos);
@@ -292,7 +298,8 @@ namespace WonosWebApp.Helpers
                 flujo.Add(resultados[i].flujoBonista);
             }
             var arrFlujos = flujo.ToArray();
-            VAN = Math.Round(Financial.NPV(estructuracion.COK/100,  ref arrFlujos),2);
+            double cok = estructuracion.COK / 100;
+            VAN = Financial.NPV(cok,  ref arrFlujos);
             return VAN;
         }
         public static double HallarUtilidad(double VAN,List<Periodo> resultados)
