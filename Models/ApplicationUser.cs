@@ -14,10 +14,10 @@ namespace WonosWebApp.Models
         [DisplayName("Tipo de Persona")]
         public string Type { get; set; }
         [DisplayName("DNI o Carnet de Extranjeria")]
-        [StringLength(8, ErrorMessage = "El DNI debe tener como maximo 8 caracteres")]
+        [StringLength(8, ErrorMessage = "El DNI debe 8 caracteres")]
         public string Dni { get; set; }
         [DisplayName("RUC")]
-        [StringLength(11, ErrorMessage = "El RUC debe tener como maximo 11 caracteres")]
+        [StringLength(11, ErrorMessage = "El RUC debe tener  11 caracteres")]
         public string Ruc { get; set; }
 
     }
