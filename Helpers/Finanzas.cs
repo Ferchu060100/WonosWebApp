@@ -62,6 +62,7 @@ namespace WonosWebApp.Helpers
             Periodo cero = new Periodo
             {
                 N = 0,
+                FechaPago = bono.fechaEmision,
                 plazoGracia = "S",
                 bono = 0,
                 cupon = 0,
@@ -79,8 +80,10 @@ namespace WonosWebApp.Helpers
             lista.Add(cero);
 
             for (int i = 0 ; i < estructuracion.totalPeriodos; i++)
-            {
+            {   
                 Periodo aux = new Periodo();
+                DateTime fechaPago = cero.FechaPago.AddDays(bono.frecuencia * i);
+                aux.FechaPago = fechaPago;
                 aux.N = i + 1;
                 if (i < bono.PlazoGraciaCant)
                 {
@@ -145,6 +148,7 @@ namespace WonosWebApp.Helpers
             Periodo cero = new Periodo
             {
                 N = 0,
+                FechaPago = bono.fechaEmision,
                 plazoGracia = "S",
                 bono = 0,
                 cupon = 0,
@@ -165,6 +169,8 @@ namespace WonosWebApp.Helpers
             for (int i = 0; i < estructuracion.totalPeriodos; i++)
             {
                 Periodo aux = new Periodo();
+                DateTime fechaPago = cero.FechaPago.AddDays(bono.frecuencia * i);
+                aux.FechaPago = fechaPago;
                 aux.N = i + 1;
                 if (i < bono.PlazoGraciaCant)
                 {
@@ -242,6 +248,7 @@ namespace WonosWebApp.Helpers
             Periodo cero = new Periodo
             {
                 N = 0,
+                FechaPago = bono.fechaEmision,
                 plazoGracia = "S",
                 bono = 0,
                 cupon = 0,
@@ -260,8 +267,8 @@ namespace WonosWebApp.Helpers
             for (int i = 0; i < estructuracion.totalPeriodos; i++)
             {
                 Periodo aux = new Periodo();
-               
-                
+                DateTime fechaPago = cero.FechaPago.AddDays(bono.frecuencia * i);
+                aux.FechaPago = fechaPago;
                 aux.N = i + 1;
                 aux.plazoGracia = "S";
                 aux.bono = i == 0 ? bono.vnominal : Math.Round(lista[i].bono.Value - lista[i].amortizacion.Value, 2);

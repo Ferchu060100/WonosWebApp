@@ -33,6 +33,7 @@
             <thead>
                 <tr>
                     <th>N</th>
+                    <th>Fecha de Pago</th>
                     <th>Inflacion</th>
                     <th>Inflacion Periodo</th>
                     <th>Plazo de Gracia</th>
@@ -53,6 +54,7 @@
              {
                 <tr>
                     <td>@Model.periodos[i].N</td>
+                    <td>@Model.periodos[i].FechaPago</td>
                     @if (i == 0)
                     {
                         <th>@Model.estructura.IA%</th>
