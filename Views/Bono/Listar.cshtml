@@ -21,6 +21,54 @@
                 <th>
                     Tipo Moneda
                 </th>
+                <th>
+                    Cantidad PG
+                </th>
+                <th>
+                    Inflacion
+                </th>
+                <th>
+                    Valor Nominal
+                </th>
+                <th>
+                    Valor Comercial
+                </th>
+                <th>
+                    Numero de Años
+                </th>
+                <th>
+                    Frecuencia
+                </th>
+                <th>
+                    Dias por Año
+                </th>
+                <th>
+                    Capitalizacion
+                </th>
+                <th>
+                    Tipo de Tasa
+                </th>
+                <th>
+                    Tasa de Interes
+                </th>
+                <th>
+                    Tasa de Descuento 
+                </th>
+                <th>
+                    Impuesto a la Renta
+                </th>
+                <th>
+                    Prima
+                </th>
+                <th>
+                    Estructuracion
+                </th>
+                <th>
+                    Colocacion
+                </th>
+                <th>
+                    Flotacion
+                </th>
             </tr>
             @foreach(var item in Model)
             {
@@ -36,6 +84,54 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.TipoMoneda)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PlazoGraciaCant)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Inflacion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.vnominal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.vcomercial)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nroaños)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.frecuencia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.diasporanio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.capitalizacion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tipoTasa)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tasaInteres)%
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tasaDescuentoCOK)%
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.impRenta)%
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.pPrima)%
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.pEstructura)%
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.pColoca)%
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.pFlota)%
                     </td>
                 </tr>
             }
