@@ -11,6 +11,11 @@ namespace WonosWebApp.Models
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser
     {
+        [DisplayName("Nombre")]
+        public string Nombres { get; set; }
+        [DisplayName("Apellidos")]
+        public string Apellidos { get; set; }
+
         [DisplayName("Tipo de Persona")]
         public string Type { get; set; }
         [DisplayName("DNI o Carnet de Extranjeria")]

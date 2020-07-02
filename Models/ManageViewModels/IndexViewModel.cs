@@ -9,6 +9,10 @@ namespace WonosWebApp.Models.ManageViewModels
 {
     public class IndexViewModel
     {
+        [DisplayName("Nombre")]
+        public string Nombres { get; set; }
+        [DisplayName("Apellidos")]
+        public string Apellidos { get; set; }
         public string Username { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
@@ -23,10 +27,10 @@ namespace WonosWebApp.Models.ManageViewModels
 
         public string StatusMessage { get; set; }
         [DisplayName("DNI o Carnet de Extranjeria")]
-        [StringLength(8, ErrorMessage = "El numero debe tener como maximo 8 caracteres")]
+        [StringLength(8,MinimumLength =8, ErrorMessage = "El DNI debe tener 8 numeros")]
         public string Dni { get; set; }
         [DisplayName("RUC")]
-        [StringLength(11, ErrorMessage = "El RUC debe tener como maximo 11 caracteres")]
+        [StringLength(11, MinimumLength =11,ErrorMessage = "El RUC debe tener  11 numeros")]
         public string Ruc { get; set; }
         [DisplayName("Tipo de Persona")]
         public string Type { get; set; }

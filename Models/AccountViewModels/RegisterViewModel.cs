@@ -9,6 +9,11 @@ namespace WonosWebApp.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
+        [DisplayName("Nombres")]
+        public string Nombres { get; set; }
+        [DisplayName("Apellidos")]
+        public string Apellidos { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -25,10 +30,10 @@ namespace WonosWebApp.Models.AccountViewModels
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
         [DisplayName("DNI o Carnet de Extranjeria")]
-        [StringLength(8, ErrorMessage = "El numero debe tener como maximo 8 caracteres")]
+        [StringLength(8, MinimumLength =8,ErrorMessage = "El DNI debe tener 8 caracteres")]
         public string Dni { get; set; }
         [DisplayName("RUC")]
-        [StringLength(11, ErrorMessage = "El RUC debe tener como maximo 11 caracteres")]
+        [StringLength(11,MinimumLength =11, ErrorMessage = "El RUC debe tener 11 caracteres")]
         public string Ruc { get; set; }
         [DisplayName("Tipo de Persona")]
         public string Type { get; set; }
