@@ -15,7 +15,7 @@ namespace WonosWebApp.Helpers
         public static double HallarTEA(double TNP, int diasAño, int diascapitalización)
         {
             double m = diasAño / diascapitalización;
-            return Math.Round(Math.Pow(1 + (TNP / m), m) - 1, 9);
+            return Math.Round(Math.Pow(1 + (TNP/100)/m,m) - 1, 9);
         }
         public static double HallarTEP( double Tasa, int diasAño, int diascapitalizacion)
         {
@@ -36,7 +36,7 @@ namespace WonosWebApp.Helpers
 
         public static Estructuracion ResultadosEstructuracion(Bono bono)
         {
-            double TEAr = bono.tipoTasa == "Efectiva" ? bono.tasaInteres : HallarTEA(bono.tasaInteres, bono.diasporanio, bono.capitalizacion);
+            double TEAr = bono.tipoTasa == "Efectiva" ? bono.tasaInteres : HallarTEA(bono.tasaInteres, bono.diasporanio, bono.capitalizacion)* 100;
             double exponente = (double)bono.frecuencia / bono.diasporanio;
             double tea = Math.Round(Math.Pow(1 + TEAr/100,exponente), 7) - 1 ;
             double Ip = Math.Round(Math.Pow(1 + bono.Inflacion/100, exponente), 7) - 1;
@@ -45,7 +45,7 @@ namespace WonosWebApp.Helpers
             {
                 totalPeriodos = (bono.diasporanio / bono.frecuencia) * bono.nroaños,
 
-                TEA = bono.tipoTasa == "Efectiva" ? bono.tasaInteres : HallarTEA(bono.tasaInteres, bono.diasporanio, bono.capitalizacion),
+                TEA = bono.tipoTasa == "Efectiva" ? bono.tasaInteres : HallarTEA(bono.tasaInteres, bono.diasporanio, bono.capitalizacion)*100,
                 TEP = Math.Round(tea * 100,9),
                 COK = Math.Round(cok * 100,7),
                 frecCupon = bono.frecuencia,
